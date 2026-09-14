@@ -1,0 +1,7 @@
+# Source artwork — public/ already holds the generated, web-sized versions.
+Mockupy
+*.zip
+*.docx
+dist
+scripts
+README.md

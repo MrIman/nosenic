@@ -1,0 +1,14 @@
+node_modules
+dist
+.DS_Store
+*.local
+.vercel
+
+# Client source material — not ours to publish, and the zip is over GitHub's 100 MB limit.
+# public/ holds the generated web versions; see README for how to rebuild them.
+Mockupy
+*.zip
+*.docx
+
+# Local editor/agent settings
+.claude/settings.local.json

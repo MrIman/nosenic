@@ -1,0 +1,186 @@
+@import 'tailwindcss';
+
+/* Registered so the accent can cross-fade in CSS when JS repaints it. */
+@property --accent {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #35b6e8;
+}
+
+@property --accent-ink {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #5cc8f2;
+}
+
+@theme {
+  --font-display: 'Clash Display', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Satoshi', 'Helvetica Neue', Arial, sans-serif;
+
+  --color-ink: #08080a;
+  --color-ink-soft: #101014;
+  --color-bone: #f2efe8;
+}
+
+:root {
+  /* Repainted per section by ScrollTrigger; see useAccent(). */
+  --accent: #35b6e8;
+  --accent-ink: #5cc8f2;
+
+  --line: rgb(242 239 232 / 0.14);
+  --muted: rgb(242 239 232 / 0.56);
+
+  color-scheme: dark;
+  transition:
+    --accent 700ms ease,
+    --accent-ink 700ms ease;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* The pinned flavour track owns the horizontal axis; the page never scrolls sideways. */
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: #08080a;
+}
+
+/* ---- type ---------------------------------------------------------- */
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.82;
+  letter-spacing: -0.045em;
+  /* The tight tracking eats the space between words — put it back. */
+  word-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  font-size: clamp(10px, 0.75vw, 12px);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* ---- surfaces ------------------------------------------------------ */
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.rule {
+  border-top: 1px solid var(--line);
+}
+
+/* ---- motion -------------------------------------------------------- */
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+  animation-direction: var(--marquee-direction, normal);
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes float-idle {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes cue {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+/* The flavour track scrolls natively until ScrollTrigger takes it over, which
+   only happens on a wide viewport with motion allowed — match that exactly, or
+   a reduced-motion desktop ends up with 7 viewports of horizontal overflow. */
+.journey-track {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .journey-track {
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+}
+
+/* Every reveal starts from this state; GSAP clears it, so keep it cheap. */
+.will-reveal {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .marquee-track {
+    animation: none;
+  }
+
+  .will-reveal {
+    opacity: 1;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---- focus --------------------------------------------------------- */
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
