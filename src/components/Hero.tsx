@@ -92,8 +92,8 @@ export default function Hero() {
       <div className="flex flex-1 flex-col justify-between px-5 sm:px-8 lg:px-10">
         <div>
           <div className="relative mt-6 sm:mt-8">
-            <h1 className="display text-[clamp(38px,10.6vw,176px)]">
-              {['New nicotine', 'trend'].map((word) => (
+            <h1 className="display text-[clamp(64px,min(19vw,38vh),300px)]">
+              {['NoseNic'].map((word) => (
                 <span
                   key={word}
                   data-hero-line
@@ -112,10 +112,10 @@ export default function Hero() {
             <div className="mt-5 flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
               <p
                 data-hero-meta
-                className="display text-[clamp(18px,2.3vw,30px)]"
+                className="display text-[clamp(24px,3.4vw,48px)]"
                 style={{ color: 'var(--accent-ink)' }}
               >
-                Your moment. Your flavour.
+                New nicotine trend
               </p>
               <p
                 data-hero-meta
