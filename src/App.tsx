@@ -26,14 +26,21 @@ export default function App() {
   // Dev affordance: ?only=worlds renders a single section at scroll 0 so it can
   // be inspected without driving the whole page.
   if (import.meta.env.DEV) {
+    // Dev affordance: ?only=worlds (or ?only=statement,footer) renders just those
+    // sections at scroll 0 so they can be inspected without driving the whole page.
     const only = new URLSearchParams(window.location.search).get('only')
-    const Section = only ? SECTIONS[only as keyof typeof SECTIONS] : undefined
-    if (Section) {
+    const picked = only
+      ?.split(',')
+      .map((name) => SECTIONS[name.trim() as keyof typeof SECTIONS])
+      .filter(Boolean)
+    if (picked?.length) {
       return (
         <>
           <Grain />
           <main>
-            <Section />
+            {picked.map((Section, index) => (
+              <Section key={index} />
+            ))}
           </main>
         </>
       )

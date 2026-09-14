@@ -11,70 +11,60 @@ const NAV = [
 
 export default function Footer() {
   return (
-    <footer className="px-5 pb-10 sm:px-8 lg:px-10">
+    <footer className="px-5 pb-8 sm:px-8 lg:px-10">
       <div
-        className="flex flex-col gap-6 border-t py-10 sm:flex-row sm:items-start sm:justify-between"
+        className="grid gap-10 border-t pb-10 pt-12 sm:grid-cols-[minmax(0,1fr)_auto_auto] sm:gap-16"
         style={{ borderColor: 'var(--line)' }}
       >
-        <div>
-          <Logo
-            variant="lockup"
-            title="NoseNic — Nicotine Nasal Inhaler"
-            className="block h-14 w-auto text-bone"
-          />
-          <p className="eyebrow mt-3 text-[11px]" style={{ color: 'var(--muted)' }}>
-            Breaking Flavour
+        <Logo
+          variant="lockup"
+          title="NoseNic — Nicotine Nasal Inhaler"
+          className="block h-11 w-auto self-start text-bone"
+        />
+
+        <nav aria-label="Footer">
+          <p className="eyebrow mb-3" style={{ color: 'var(--muted)' }}>
+            Explore
           </p>
-        </div>
-
-        <nav className="-my-3 flex flex-wrap gap-x-6">
-          {NAV.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="inline-block py-3 text-[14px] text-bone/70 transition-colors duration-200 hover:text-bone"
-            >
-              {item.label}
-            </a>
-          ))}
+          <ul className="grid grid-cols-2 gap-x-8 sm:grid-cols-1">
+            {NAV.map((item) => (
+              <li key={item.href}>
+                <a
+                  href={item.href}
+                  className="inline-block py-3 text-[14px] text-bone/70 sm:py-2 transition-colors duration-200 hover:text-bone"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </nav>
-      </div>
 
-      <div className="border-t py-10 sm:py-14" style={{ borderColor: 'var(--line)' }}>
-        <p className="eyebrow text-[11px]" style={{ color: 'var(--muted)' }}>
-          Contact
-        </p>
-        <a
-          href={`mailto:${CONTACT_EMAIL}`}
-          className="display mt-1 inline-block py-3 [overflow-wrap:anywhere] text-[clamp(28px,6vw,84px)] leading-[0.95] transition-colors duration-300 hover:[color:var(--accent-ink)]"
-          /* .display uppercases; an address should read as typed. */
-          style={{ textTransform: 'none', letterSpacing: '-0.03em' }}
-        >
-          {CONTACT_EMAIL}
-        </a>
-      </div>
-
-      <div
-        className="flex flex-col gap-4 border-t py-8 text-[13px] leading-relaxed sm:flex-row sm:items-start sm:justify-between"
-        style={{ borderColor: 'var(--line)', color: 'var(--muted)' }}
-      >
-        <p className="max-w-[62ch]">
-          <strong className="font-bold text-bone">
-            Warning: This product contains nicotine. Nicotine is an addictive chemical.
-          </strong>{' '}
-          For adults 18+ only. Not for use by non-smokers, pregnant or breastfeeding women.
-          Product information follows the final approved packaging.
-        </p>
-        <p className="shrink-0 sm:text-right">
-          &copy; {new Date().getFullYear()} NoseNic
-          <br />
+        <div>
+          <p className="eyebrow mb-3" style={{ color: 'var(--muted)' }}>
+            Contact
+          </p>
           <a
             href={`mailto:${CONTACT_EMAIL}`}
-            className="-my-3 inline-block py-3 transition-colors duration-200 hover:text-bone"
+            className="inline-block py-3 text-[16px] text-bone sm:py-2 transition-colors duration-200 hover:[color:var(--accent-ink)]"
           >
             {CONTACT_EMAIL}
           </a>
+        </div>
+      </div>
+
+      <div
+        className="flex flex-col gap-3 border-t pt-6 text-[12px] leading-relaxed sm:flex-row sm:items-start sm:justify-between sm:gap-10"
+        style={{ borderColor: 'var(--line)', color: 'var(--muted)' }}
+      >
+        <p className="max-w-[70ch]">
+          <span className="font-medium text-bone/90">
+            Warning: This product contains nicotine. Nicotine is an addictive chemical.
+          </span>{' '}
+          For adults 18+ only. Not for use by non-smokers, pregnant or breastfeeding women.
+          Product information follows the final approved packaging.
         </p>
+        <p className="shrink-0">&copy; {new Date().getFullYear()} NoseNic</p>
       </div>
     </footer>
   )
