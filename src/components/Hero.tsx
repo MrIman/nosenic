@@ -108,8 +108,8 @@ export default function Hero() {
           </div>
 
           <div className="relative mt-10 sm:mt-12">
-            <h1 className="display text-[clamp(44px,10.6vw,176px)]">
-              {['Breaking', 'Flavour'].map((word) => (
+            <h1 className="display text-[clamp(38px,10.6vw,176px)]">
+              {['New nicotine', 'trend'].map((word) => (
                 <span
                   key={word}
                   data-hero-line
