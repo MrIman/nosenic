@@ -1,10 +1,9 @@
 import { useRef } from 'react'
-import { FLAVOURS, WORLDS, deviceSrc } from '../data/nosenic'
+import { FLAVOURS, SHELF, WORLDS, deviceSrc } from '../data/nosenic'
 import { revealIn, useGSAP } from '../lib/motion'
 
 export default function Worlds() {
   const root = useRef<HTMLElement>(null)
-  const pouches = WORLDS.filter((world) => world.pouch)
 
   useGSAP(
     () => {
@@ -63,7 +62,7 @@ export default function Worlds() {
                       {world.name}
                     </span>
                     <span
-                      className="eyebrow text-[9px] whitespace-nowrap"
+                      className="eyebrow text-[11px] whitespace-nowrap"
                       style={{ color: 'var(--muted)' }}
                     >
                       {world.note}
@@ -99,10 +98,10 @@ export default function Worlds() {
           </h3>
           <p
             data-reveal
-            className="eyebrow will-reveal translate-y-6 text-[10px]"
+            className="eyebrow will-reveal translate-y-6 text-[11px]"
             style={{ color: 'var(--muted)' }}
           >
-            Retail pouches &mdash; drag &rarr;
+            Retail pouches &mdash; swipe &rarr;
           </p>
         </div>
       </div>
@@ -111,23 +110,35 @@ export default function Worlds() {
         className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 sm:gap-6 sm:px-8 lg:px-10"
         style={{ scrollbarWidth: 'none' }}
       >
-        {pouches.map((world) => (
-          <li key={world.id} className="w-[68vw] shrink-0 snap-center sm:w-[38vw] lg:w-[24vw]">
-            <div className="overflow-hidden rounded-sm bg-bone">
-              <img
-                src={`/pouches/${world.id}.webp`}
-                alt={`NoseNic retail pouch, ${world.name} series`}
-                loading="lazy"
-                decoding="async"
-                className="h-auto w-full"
-              />
-            </div>
-            <p className="display mt-4 text-[clamp(16px,1.7vw,22px)]">{world.name}</p>
-            <p className="eyebrow mt-1 text-[9px]" style={{ color: 'var(--muted)' }}>
-              {world.note}
-            </p>
-          </li>
-        ))}
+        {SHELF.map(({ world: worldId, flavour: flavourId }) => {
+          const world = WORLDS.find((item) => item.id === worldId)!
+          const flavour = FLAVOURS.find((item) => item.id === flavourId)!
+          return (
+            <li key={worldId} className="w-[72vw] shrink-0 snap-center sm:w-[40vw] lg:w-[24vw]">
+              <div
+                className="relative overflow-hidden rounded-sm px-[8%] pb-2 pt-[10%]"
+                style={{
+                  background: `radial-gradient(70% 55% at 50% 62%, color-mix(in srgb, ${flavour.accent} 34%, transparent) 0%, transparent 72%), var(--color-ink-soft)`,
+                }}
+              >
+                <img
+                  src={`/shelf/${worldId}.webp`}
+                  alt={`NoseNic ${flavour.name} retail pouch, ${world.name} series`}
+                  loading="lazy"
+                  decoding="async"
+                  width={713}
+                  height={1100}
+                  className="mx-auto h-auto w-full"
+                  style={{ filter: 'saturate(1.3) contrast(1.06)' }}
+                />
+              </div>
+              <p className="display mt-4 text-[clamp(18px,1.7vw,22px)]">{world.name}</p>
+              <p className="eyebrow mt-1 text-[11px]" style={{ color: flavour.ink }}>
+                {flavour.name}
+              </p>
+            </li>
+          )
+        })}
       </ul>
     </section>
   )

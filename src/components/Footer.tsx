@@ -22,17 +22,17 @@ export default function Footer() {
             title="NoseNic — Nicotine Nasal Inhaler"
             className="block h-14 w-auto text-bone"
           />
-          <p className="eyebrow mt-3 text-[10px]" style={{ color: 'var(--muted)' }}>
+          <p className="eyebrow mt-3 text-[11px]" style={{ color: 'var(--muted)' }}>
             Breaking Flavour
           </p>
         </div>
 
-        <nav className="flex flex-wrap gap-x-6 gap-y-2">
+        <nav className="-my-3 flex flex-wrap gap-x-6">
           {NAV.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="text-[13px] text-bone/70 transition-colors duration-200 hover:text-bone"
+              className="inline-block py-3 text-[14px] text-bone/70 transition-colors duration-200 hover:text-bone"
             >
               {item.label}
             </a>
@@ -41,12 +41,12 @@ export default function Footer() {
       </div>
 
       <div className="border-t py-10 sm:py-14" style={{ borderColor: 'var(--line)' }}>
-        <p className="eyebrow text-[10px]" style={{ color: 'var(--muted)' }}>
+        <p className="eyebrow text-[11px]" style={{ color: 'var(--muted)' }}>
           Contact
         </p>
         <a
           href={`mailto:${CONTACT_EMAIL}`}
-          className="display mt-4 inline-block [overflow-wrap:anywhere] text-[clamp(28px,6vw,84px)] leading-[0.95] transition-colors duration-300 hover:[color:var(--accent-ink)]"
+          className="display mt-1 inline-block py-3 [overflow-wrap:anywhere] text-[clamp(28px,6vw,84px)] leading-[0.95] transition-colors duration-300 hover:[color:var(--accent-ink)]"
           /* .display uppercases; an address should read as typed. */
           style={{ textTransform: 'none', letterSpacing: '-0.03em' }}
         >
@@ -70,7 +70,7 @@ export default function Footer() {
           <br />
           <a
             href={`mailto:${CONTACT_EMAIL}`}
-            className="transition-colors duration-200 hover:text-bone"
+            className="-my-3 inline-block py-3 transition-colors duration-200 hover:text-bone"
           >
             {CONTACT_EMAIL}
           </a>

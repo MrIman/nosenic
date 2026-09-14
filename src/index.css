@@ -43,6 +43,8 @@ html {
 }
 
 body {
+  -webkit-tap-highlight-color: transparent;
+  text-size-adjust: 100%;
   background: var(--color-ink);
   color: var(--color-bone);
   font-family: var(--font-body);
@@ -68,7 +70,7 @@ body {
 }
 
 .eyebrow {
-  font-size: clamp(10px, 0.75vw, 12px);
+  font-size: clamp(11px, 0.75vw, 12px);
   letter-spacing: 0.26em;
   text-transform: uppercase;
   font-weight: 500;

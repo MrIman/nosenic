@@ -86,10 +86,23 @@ export default function FlavourJourney() {
     { scope: root },
   )
 
-  const reduced = prefersReducedMotion()
+  const step = (direction: 1 | -1) => {
+    const element = track.current
+    if (!element) return
+    element.scrollBy({
+      left: direction * element.clientWidth,
+      behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+    })
+  }
 
   return (
-    <section ref={root} id="flavours" className="relative h-svh overflow-hidden lg:h-svh">
+    <section
+      ref={root}
+      id="flavours"
+      /* Phones get a natural-height swipe carousel; the pinned full-screen
+         track is for wide screens only. */
+      className="relative pb-16 pt-24 lg:h-svh lg:overflow-hidden lg:p-0"
+    >
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10"
@@ -99,7 +112,7 @@ export default function FlavourJourney() {
         }}
       />
 
-      <header className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-baseline justify-between px-5 pt-24 sm:px-8 lg:px-10">
+      <header className="z-20 flex items-baseline justify-between px-5 sm:px-8 lg:pointer-events-none lg:absolute lg:inset-x-0 lg:top-0 lg:px-10 lg:pt-24">
         <div>
           <p className="eyebrow" style={{ color: 'var(--accent-ink)' }}>
             03 — The range
@@ -111,15 +124,21 @@ export default function FlavourJourney() {
         </p>
       </header>
 
-      <div ref={track} className="journey-track flex h-full" style={{ scrollbarWidth: 'none' }}>
+      <div
+        ref={track}
+        className="journey-track flex lg:h-full"
+        style={{ scrollbarWidth: 'none' }}
+        aria-label="Flavours"
+      >
         {FLAVOURS.map((flavour, index) => {
           const world = WORLDS[(worldIndices[index] + bump[index]) % WORLDS.length]
           return (
             <article
               key={flavour.id}
-              className="flex h-full w-screen shrink-0 snap-center flex-col justify-center gap-6 px-5 pb-16 pt-44 sm:px-8 lg:flex-row lg:items-center lg:gap-16 lg:px-10 lg:pt-40"
+              aria-label={`${index + 1} of ${FLAVOURS.length}: ${flavour.name}`}
+              className="flex w-screen shrink-0 snap-center flex-col gap-8 px-5 pt-10 sm:px-8 lg:h-full lg:flex-row lg:items-center lg:justify-center lg:gap-16 lg:px-10 lg:pb-16 lg:pt-40"
             >
-              <div className="order-2 flex-1 lg:order-1 lg:max-w-[46ch]">
+              <div className="order-2 lg:order-1 lg:max-w-[46ch] lg:flex-1">
                 <p
                   className="display text-[clamp(40px,7vw,96px)] leading-none"
                   style={{ color: 'var(--accent-ink)', opacity: 0.28 }}
@@ -128,11 +147,11 @@ export default function FlavourJourney() {
                 </p>
                 <h3 className="display mt-2 text-[clamp(38px,6.4vw,88px)]">{flavour.name}</h3>
 
-                <ul className="mt-5 flex flex-wrap gap-x-3 gap-y-2">
+                <ul className="mt-5 flex flex-wrap gap-x-2.5 gap-y-2">
                   {flavour.character.map((word) => (
                     <li
                       key={word}
-                      className="eyebrow rounded-full px-3 py-1.5 text-[10px] text-ink"
+                      className="eyebrow rounded-full px-3.5 py-2 text-[11px] text-ink"
                       style={{ background: 'var(--accent)' }}
                     >
                       {word}
@@ -140,51 +159,60 @@ export default function FlavourJourney() {
                   ))}
                 </ul>
 
-                <p className="mt-6 max-w-[46ch] text-[clamp(15px,1.5vw,20px)] leading-relaxed">
+                <p className="mt-6 max-w-[46ch] text-[clamp(16px,1.5vw,20px)] leading-relaxed">
                   {flavour.short}
                 </p>
 
-                <p className="eyebrow mt-6 text-[10px]" style={{ color: 'var(--muted)' }}>
+                <p
+                  className="eyebrow mt-5 text-[11px] leading-loose"
+                  style={{ color: 'var(--muted)' }}
+                >
                   {flavour.mood.join(' / ')}
                 </p>
               </div>
 
-              <div className="order-1 flex flex-1 items-center justify-center lg:order-2">
-                <div className="relative">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setBump((prev) =>
-                        prev.map((value, i) => (i === index ? value + 1 : value)),
-                      )
-                    }
-                    aria-label={`${flavour.name} — show the next visual world`}
-                    className="block cursor-pointer transition-transform duration-300 hover:-translate-y-1.5"
-                  >
-                    <DeviceMorph
-                      flavour={flavour.id}
-                      world={world.id}
-                      alt={`NoseNic ${flavour.name} nasal inhaler, ${world.name} series`}
-                      className="aspect-[374/670] h-[clamp(180px,42vh,440px)]"
-                    />
-                  </button>
-                  <span className="eyebrow absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap text-center text-[10px]">
-                    <span className="block" style={{ color: 'var(--accent-ink)' }}>
-                      {world.name} series
-                    </span>
-                    <span className="mt-1 block text-[9px]" style={{ color: 'var(--muted)' }}>
-                      Tap to change world
-                    </span>
+              <div className="order-1 flex flex-col items-center lg:order-2 lg:flex-1">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setBump((prev) => prev.map((value, i) => (i === index ? value + 1 : value)))
+                  }
+                  aria-label={`${flavour.name} — show the next visual world`}
+                  className="block cursor-pointer transition-transform duration-300 hover:-translate-y-1.5 active:scale-[0.97]"
+                >
+                  <DeviceMorph
+                    flavour={flavour.id}
+                    world={world.id}
+                    alt={`NoseNic ${flavour.name} nasal inhaler, ${world.name} series`}
+                    className="aspect-[374/670] h-[clamp(210px,36vh,300px)] lg:h-[clamp(180px,42vh,440px)]"
+                  />
+                </button>
+                <span className="eyebrow mt-4 text-center text-[11px]">
+                  <span className="block" style={{ color: 'var(--accent-ink)' }}>
+                    {world.name} series
                   </span>
-                </div>
+                  <span className="mt-1 block" style={{ color: 'var(--muted)' }}>
+                    Tap to change world
+                  </span>
+                </span>
               </div>
             </article>
           )
         })}
       </div>
 
-      <footer className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex items-center gap-4 px-5 pb-6 sm:px-8 lg:px-10">
-        <span className="eyebrow text-[10px]" style={{ color: 'var(--muted)' }}>
+      <footer className="z-20 mt-10 flex items-center gap-3 px-5 sm:px-8 lg:pointer-events-none lg:absolute lg:inset-x-0 lg:bottom-0 lg:mt-0 lg:gap-4 lg:px-10 lg:pb-6">
+        <button
+          type="button"
+          onClick={() => step(-1)}
+          disabled={active === 0}
+          aria-label="Previous flavour"
+          className="flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border transition-opacity duration-200 disabled:opacity-30 lg:hidden"
+          style={{ borderColor: 'var(--line)' }}
+        >
+          <span aria-hidden="true">&larr;</span>
+        </button>
+        <span className="eyebrow text-[11px] tabular-nums" style={{ color: 'var(--muted)' }}>
           0{active + 1} / 07
         </span>
         <span className="h-px flex-1" style={{ background: 'var(--line)' }}>
@@ -196,9 +224,22 @@ export default function FlavourJourney() {
             }}
           />
         </span>
-        <span className="eyebrow text-[10px]" style={{ color: 'var(--muted)' }}>
-          {reduced ? 'Swipe' : 'Keep scrolling'}
+        <span
+          className="eyebrow hidden text-[11px] lg:inline"
+          style={{ color: 'var(--muted)' }}
+        >
+          Keep scrolling
         </span>
+        <button
+          type="button"
+          onClick={() => step(1)}
+          disabled={active === FLAVOURS.length - 1}
+          aria-label="Next flavour"
+          className="flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border transition-opacity duration-200 disabled:opacity-30 lg:hidden"
+          style={{ borderColor: 'var(--line)' }}
+        >
+          <span aria-hidden="true">&rarr;</span>
+        </button>
       </footer>
     </section>
   )

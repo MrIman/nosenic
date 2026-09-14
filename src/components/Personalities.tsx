@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FLAVOURS, deviceSrc } from '../data/nosenic'
 import { revealIn, useGSAP } from '../lib/motion'
 
@@ -12,6 +12,24 @@ export default function Personalities() {
     },
     { scope: root },
   )
+
+  // Touch screens have no hover, so light the row passing the middle of the screen.
+  useEffect(() => {
+    const section = root.current
+    if (!section || !window.matchMedia('(hover: none)').matches) return
+
+    const rows = [...section.querySelectorAll<HTMLElement>('[data-row]')]
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setHovered(Number(entry.target.getAttribute('data-row')))
+        }
+      },
+      { rootMargin: '-45% 0px -45% 0px' },
+    )
+    rows.forEach((row) => observer.observe(row))
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <section
@@ -48,12 +66,13 @@ export default function Personalities() {
             <li
               key={flavour.id}
               data-reveal
+              data-row={index}
               className="will-reveal translate-y-6"
               onMouseEnter={() => setHovered(index)}
               onMouseLeave={() => setHovered(null)}
             >
               <article
-                className="group grid cursor-default items-start gap-x-8 gap-y-4 border-t py-7 transition-colors duration-300 sm:py-9 lg:grid-cols-[6ch_minmax(0,1.05fr)_minmax(0,1.4fr)_10ch]"
+                className="group relative grid cursor-default items-start gap-x-8 gap-y-4 border-t py-7 transition-colors duration-300 sm:py-9 lg:grid-cols-[6ch_minmax(0,1.05fr)_minmax(0,1.4fr)_10ch]"
                 style={{
                   borderColor: isOn ? flavour.accent : 'var(--line)',
                   background: isOn
@@ -75,7 +94,7 @@ export default function Personalities() {
                   >
                     {flavour.name}
                   </h3>
-                  <p className="eyebrow mt-3 text-[10px]" style={{ color: 'var(--muted)' }}>
+                  <p className="eyebrow mt-3 text-[11px]" style={{ color: 'var(--muted)' }}>
                     {flavour.character.join(' / ')}
                   </p>
                 </div>
@@ -92,7 +111,7 @@ export default function Personalities() {
                   decoding="async"
                   width={374}
                   height={670}
-                  className="hidden h-24 w-auto justify-self-end transition-all duration-500 lg:block"
+                  className="absolute right-0 top-7 h-16 w-auto transition-all duration-500 sm:top-9 lg:static lg:h-24 lg:justify-self-end"
                   style={{
                     opacity: isOn ? 1 : 0.32,
                     transform: isOn ? 'translateY(-6px) rotate(-3deg)' : 'none',

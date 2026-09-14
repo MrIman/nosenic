@@ -12,6 +12,18 @@ ROOT = Path("/Users/igormanka/Desktop/projekty/nosenic/strona")
 SRC = ROOT / "Mockup 3D"
 OUT = ROOT / "public/packs"
 HEIGHT = 600
+# The shelf strip shows one pack per world much larger, so it gets its own
+# higher-resolution export from the same renders.
+SHELF_OUT = ROOT / "public/shelf"
+SHELF_HEIGHT = 1100
+SHELF = {
+    "street": "limoncello",
+    "typographic": "cherry-ice",
+    "illustration": "blueberry-ice",
+    "energy": "red-hot",
+    "graphic": "double-mint",
+    "minimal": "winter-green",
+}
 # Solid pouch spans x 1238-3708, y 686-4510 in every render; the margin keeps
 # the start of the baked soft shadow, which reads as grounding on a dark page.
 CROP = (1200, 660, 3740, 4580)
@@ -42,6 +54,13 @@ def main() -> None:
             pack.resize((width, HEIGHT), Image.LANCZOS).save(target, "WEBP", quality=82, method=6)
             total += target.stat().st_size
             count += 1
+
+            if SHELF.get(world) == flavour:
+                SHELF_OUT.mkdir(parents=True, exist_ok=True)
+                shelf_width = round(pack.width * SHELF_HEIGHT / pack.height)
+                shelf = SHELF_OUT / f"{world}.webp"
+                pack.resize((shelf_width, SHELF_HEIGHT), Image.LANCZOS).save(shelf, "WEBP", quality=80, method=6)
+                print(f"shelf {world}: {flavour} {shelf.stat().st_size / 1024:.0f} KB")
     print(f"{count} packs, {total / 1024:.0f} KB, avg {total / count / 1024:.0f} KB")
 
 

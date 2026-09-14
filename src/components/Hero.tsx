@@ -114,12 +114,21 @@ export default function Hero() {
               </p>
               <p
                 data-hero-meta
-                className="hidden max-w-[38ch] text-[15px] leading-relaxed sm:block"
+                className="max-w-[38ch] text-[15px] leading-relaxed"
                 style={{ color: 'var(--muted)' }}
               >
                 Seven flavours. Ten visual worlds. One brand — every pack below is re-dressing
                 itself as you watch.
               </p>
+              {/* The nav's call to action is desktop-only; phones get it here. */}
+              <a
+                data-hero-meta
+                href="#flavours"
+                className="inline-flex h-12 items-center rounded-full px-6 text-[15px] font-medium text-ink transition-opacity duration-200 active:opacity-80 lg:hidden"
+                style={{ background: 'var(--accent)' }}
+              >
+                Find your flavour
+              </a>
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Logo from './Logo'
+import { CONTACT_EMAIL } from '../data/nosenic'
 
 const LINKS = [
   { href: '#flavours', label: 'Flavours' },
@@ -26,9 +27,18 @@ export default function Nav() {
   }, [])
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
+    // iOS Safari ignores overflow on body alone, so lock the root too.
+    const roots = [document.documentElement, document.body]
+    roots.forEach((node) => (node.style.overflow = open ? 'hidden' : ''))
+    if (!open) return
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
     return () => {
-      document.body.style.overflow = ''
+      roots.forEach((node) => (node.style.overflow = ''))
+      window.removeEventListener('keydown', onKey)
     }
   }, [open])
 
@@ -48,7 +58,7 @@ export default function Nav() {
         <div className="flex items-center justify-between px-5 py-4 sm:px-8 lg:px-10">
           <a
             href="#top"
-            className="group flex items-baseline gap-2.5"
+            className="group -my-3 flex items-baseline gap-2.5 py-3"
             aria-label="NoseNic — home"
           >
             <Logo
@@ -94,7 +104,8 @@ export default function Nav() {
               onClick={() => setOpen((value) => !value)}
               aria-label={open ? 'Close menu' : 'Open menu'}
               aria-expanded={open}
-              className="flex cursor-pointer flex-col gap-[5px] p-1 lg:hidden"
+              aria-controls="mobile-menu"
+              className="-mr-2.5 flex size-11 cursor-pointer flex-col items-center justify-center gap-[5px] lg:hidden"
             >
               <span
                 className={`h-[1.5px] w-6 bg-bone transition-transform duration-300 ${
@@ -117,7 +128,10 @@ export default function Nav() {
       </header>
 
       <div
-        className={`fixed inset-0 z-40 flex flex-col justify-center gap-2 bg-ink/97 px-6 backdrop-blur-xl transition-opacity duration-300 lg:hidden ${
+        id="mobile-menu"
+        // Invisible while closed, so keep its links out of the tab order too.
+        inert={!open}
+        className={`fixed inset-0 z-40 flex flex-col justify-center gap-2 overflow-y-auto bg-ink/97 px-6 py-24 backdrop-blur-xl transition-opacity duration-300 lg:hidden ${
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
       >
@@ -135,8 +149,14 @@ export default function Nav() {
             {link.label}
           </a>
         ))}
-        <p className="mt-8 text-[12px]" style={{ color: 'var(--muted)' }}>
-          NoseNic / Nasal Inhaler Series / Breaking Flavour
+        <a
+          href={`mailto:${CONTACT_EMAIL}`}
+          className="mt-8 inline-block self-start py-2 text-[16px] text-bone"
+        >
+          {CONTACT_EMAIL}
+        </a>
+        <p className="text-[13px]" style={{ color: 'var(--muted)' }}>
+          18+ only · NoseNic / Nasal Inhaler Series
         </p>
       </div>
     </>

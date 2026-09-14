@@ -37,8 +37,11 @@ npm run format
   into that backdrop with no edge to threshold, so the script keys on the well-lit right edge
   and mirrors it about the casing's centreline. Rows where the silhouette flares back out are
   the contact shadow, not the product, and are trimmed.
-- **`scripts/build_pouches.py`** picks one retail pouch per world and downscales it to
-  `public/pouches/<world>.webp`.
+- **`scripts/build_packs.py`** exports the transparent 3D pouch renders in `Mockup 3D/` to
+  `public/packs/<world>/<flavour>.webp` for the hero, and one larger pack per world to
+  `public/shelf/<world>.webp` for the shelf strip. The renders are only numbered, so each
+  folder's flavour order was read off the packs and is recorded in `PACKS`. Korpo (`minimal`)
+  has a Winter Green render only.
 - The hero film is cut from `ujecia_raw/` shots s01, s05, s08 and s07 (see `MONTAZ.md` for
   which takes are clean) into `public/video/` at two widths plus a poster frame.
 

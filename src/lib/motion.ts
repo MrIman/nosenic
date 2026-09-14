@@ -4,6 +4,10 @@ import { useGSAP } from '@gsap/react'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
+// Mobile browsers resize the viewport as the URL bar slides in and out; a full
+// refresh on each of those makes pinned and scrubbed sections jump.
+ScrollTrigger.config({ ignoreMobileResize: true })
+
 export { gsap, ScrollTrigger, useGSAP }
 
 if (import.meta.env.DEV) {

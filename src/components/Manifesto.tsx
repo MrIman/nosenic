@@ -66,7 +66,7 @@ export default function Manifesto() {
             {PRODUCT_TAGS.map((tag) => (
               <li
                 key={tag}
-                className="eyebrow rounded-full border px-4 py-2 text-[10px]"
+                className="eyebrow rounded-full border px-4 py-2 text-[11px]"
                 style={{ borderColor: 'var(--line)', color: 'var(--muted)' }}
               >
                 {tag}

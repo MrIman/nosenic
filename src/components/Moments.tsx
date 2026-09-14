@@ -91,7 +91,7 @@ export default function Moments() {
             data-reveal
             className="group will-reveal translate-y-6 bg-ink px-6 py-10 transition-colors duration-300 hover:bg-ink-soft sm:px-8 sm:py-12"
           >
-            <p className="eyebrow text-[10px]" style={{ color: 'var(--muted)' }}>
+            <p className="eyebrow text-[11px]" style={{ color: 'var(--muted)' }}>
               0{index + 1}
             </p>
             <h3 className="display mt-4 text-[clamp(26px,3vw,42px)] transition-colors duration-300 group-hover:[color:var(--accent-ink)]">

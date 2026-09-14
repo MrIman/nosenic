@@ -111,21 +111,19 @@ export interface World {
   name: string
   /** Shown next to the world name in the marquee. */
   note: string
-  /** A retail pouch exists in the mockup set for this world. */
-  pouch: boolean
 }
 
 export const WORLDS: World[] = [
-  { id: 'pop', name: 'POP', note: 'Grins & moustaches', pouch: true },
-  { id: 'typographic', name: 'TYPOGRAPHIC', note: 'The NoseNic Times', pouch: true },
-  { id: 'minimal', name: 'MINIMAL', note: 'Nothing but the mark', pouch: true },
-  { id: 'street', name: 'STREET', note: 'Spray & stencil', pouch: false },
-  { id: 'illustration', name: 'ILLUSTRATION', note: 'Splash lettering', pouch: true },
-  { id: 'organic', name: 'ORGANIC', note: 'Porcelain creatures', pouch: true },
-  { id: 'energy', name: 'ENERGY', note: 'Speed gradients', pouch: true },
-  { id: 'domino', name: 'DOMINO', note: 'Dots only', pouch: true },
-  { id: 'graphic', name: 'GRAPHIC', note: 'Abstract canvases', pouch: true },
-  { id: 'pattern', name: 'PATTERN', note: 'Liquid maze', pouch: false },
+  { id: 'pop', name: 'POP', note: 'Grins & moustaches' },
+  { id: 'typographic', name: 'TYPOGRAPHIC', note: 'The NoseNic Times' },
+  { id: 'minimal', name: 'MINIMAL', note: 'Nothing but the mark' },
+  { id: 'street', name: 'STREET', note: 'Spray & stencil' },
+  { id: 'illustration', name: 'ILLUSTRATION', note: 'Splash lettering' },
+  { id: 'organic', name: 'ORGANIC', note: 'Porcelain creatures' },
+  { id: 'energy', name: 'ENERGY', note: 'Speed gradients' },
+  { id: 'domino', name: 'DOMINO', note: 'Dots only' },
+  { id: 'graphic', name: 'GRAPHIC', note: 'Abstract canvases' },
+  { id: 'pattern', name: 'PATTERN', note: 'Liquid maze' },
 ]
 
 export const MOMENTS = [
@@ -161,3 +159,13 @@ export const packWorldsFor = (flavour: FlavourId) =>
   )
 
 export const packSrc = (world: string, flavour: FlavourId) => `/packs/${world}/${flavour}.webp`
+
+/** One 3D pack per world for the shelf strip; mirrors SHELF in scripts/build_packs.py. */
+export const SHELF: { world: string; flavour: FlavourId }[] = [
+  { world: 'street', flavour: 'limoncello' },
+  { world: 'typographic', flavour: 'cherry-ice' },
+  { world: 'illustration', flavour: 'blueberry-ice' },
+  { world: 'energy', flavour: 'red-hot' },
+  { world: 'graphic', flavour: 'double-mint' },
+  { world: 'minimal', flavour: 'winter-green' },
+]
