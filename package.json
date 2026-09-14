@@ -8,7 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"*.{ts,json,html}\"",
-    "assets": "python3 scripts/build_devices.py && python3 scripts/build_pouches.py"
+    "assets": "python3 scripts/build_devices.py && python3 scripts/build_pouches.py && python3 scripts/build_packs.py"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import DeviceMorph from './DeviceMorph'
 import Logo from './Logo'
 import WindLights from './WindLights'
-import { FLAVOURS, WORLDS } from '../data/nosenic'
+import { FLAVOURS, packSrc, packWorldsFor } from '../data/nosenic'
 import { gsap, prefersReducedMotion, useGSAP } from '../lib/motion'
 import { useInView } from '../hooks/useInView'
 import { useWorldCycle } from '../hooks/useWorldCycle'
@@ -13,7 +13,9 @@ export default function Hero() {
   const root = useRef<HTMLElement>(null)
   const rowRef = useRef<HTMLDivElement>(null)
   const inView = useInView(root)
-  const worldIndices = useWorldCycle(FLAVOURS.length, WORLDS.length, 460, inView)
+  // Each flavour has its own set of pouch worlds, so cycle a shared counter and
+  // wrap it per flavour.
+  const worldIndices = useWorldCycle(FLAVOURS.length, 60, 460, inView)
 
   useGSAP(
     () => {
@@ -97,7 +99,7 @@ export default function Hero() {
               <span data-hero-line className="block overflow-hidden">
                 <span className="block">
                   {/* Sized off both axes so it clears phones and short laptop screens. */}
-                  <Logo className="block h-auto w-[min(100%,132vh,1400px)]" />
+                  <Logo className="block h-auto w-[min(78%,98vh,1040px)]" />
                 </span>
               </span>
             </h1>
@@ -115,37 +117,42 @@ export default function Hero() {
                 className="hidden max-w-[38ch] text-[15px] leading-relaxed sm:block"
                 style={{ color: 'var(--muted)' }}
               >
-                Seven flavours. Ten visual worlds. One brand — every inhaler below is
-                re-dressing itself as you watch.
+                Seven flavours. Ten visual worlds. One brand — every pack below is re-dressing
+                itself as you watch.
               </p>
             </div>
           </div>
         </div>
 
-        <div
-          ref={rowRef}
-          className="relative flex items-end justify-center gap-[3px] sm:gap-3 lg:gap-5"
-        >
+        <div ref={rowRef} className="relative flex items-end justify-center sm:gap-3 lg:gap-5">
           {FLAVOURS.map((flavour, index) => {
-            const world = WORLDS[worldIndices[index] % WORLDS.length]
+            const worlds = packWorldsFor(flavour.id)
+            const world = worlds[worldIndices[index] % worlds.length]
             const lift = Math.abs(index - 3)
             return (
               <div
                 key={flavour.id}
                 data-hero-device
-                className="flex shrink-0 flex-col items-center"
+                /* On phones the packs overlap into a fan so each can stay legible. */
+                className="-ml-[7vw] flex shrink-0 flex-col items-center first:ml-0 sm:ml-0"
                 style={{
                   marginBottom: `${(3 - lift) * 8}px`,
+                  zIndex: 10 - lift,
                   willChange: 'transform',
                 }}
               >
                 <DeviceMorph
                   flavour={flavour.id}
                   world={world.id}
-                  alt={`NoseNic ${flavour.name} nasal inhaler, ${world.name} series`}
+                  alt={`NoseNic ${flavour.name} retail pouch, ${world.name} series`}
                   loading="eager"
                   /* Sized off the shorter axis so seven of them always fit the row. */
-                  className="aspect-[374/670] h-[clamp(70px,min(22vh,20.5vw),190px)]"
+                  srcFor={packSrc}
+                  /* Lifts the renders' studio-flat colour off the dark page. */
+                  tone="saturate(1.4) contrast(1.1) brightness(1.05)"
+                  width={389}
+                  height={600}
+                  className="aspect-[389/600] h-[clamp(60px,min(24vh,28vw),130px)] sm:h-[clamp(60px,min(28vh,18vw),280px)]"
                 />
                 <span className="eyebrow mt-3 hidden text-center text-[9px] leading-[1.5] lg:block">
                   <span className="block" style={{ color: 'var(--muted)' }}>

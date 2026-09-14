@@ -8,11 +8,18 @@ interface Props {
   alt: string
   className?: string
   loading?: 'eager' | 'lazy'
+  /** Where a world/flavour's artwork lives. Defaults to the inhaler set. */
+  srcFor?: (world: string, flavour: FlavourId) => string
+  /** Intrinsic size of the artwork, for layout before it decodes. */
+  width?: number
+  height?: number
+  /** Extra CSS filter applied before the drop shadow, e.g. to push colour. */
+  tone?: string
 }
 
 /**
- * One inhaler that can change its visual world without ever flashing a gap:
- * the next artwork is decoded off-screen and only cuts in once it has loaded.
+ * One product shot that can change its visual world without ever flashing a
+ * gap: the next artwork is decoded off-screen and only cuts in once loaded.
  */
 export default function DeviceMorph({
   flavour,
@@ -20,6 +27,10 @@ export default function DeviceMorph({
   alt,
   className,
   loading = 'lazy',
+  srcFor = deviceSrc,
+  width = 374,
+  height = 670,
+  tone = '',
 }: Props) {
   const [shown, setShown] = useState(world)
   const [pending, setPending] = useState<string | null>(null)
@@ -33,19 +44,19 @@ export default function DeviceMorph({
     <span className={className} style={{ position: 'relative', display: 'block' }} data-device>
       <img
         ref={imageRef}
-        src={deviceSrc(shown, flavour)}
+        src={srcFor(shown, flavour)}
         alt={alt}
         loading={loading}
         decoding="async"
-        width={374}
-        height={670}
-        className="h-full w-full object-contain"
-        style={{ filter: 'drop-shadow(0 26px 34px rgb(0 0 0 / 0.55))' }}
+        width={width}
+        height={height}
+        className="h-full w-full object-contain object-bottom"
+        style={{ filter: `${tone} drop-shadow(0 26px 34px rgb(0 0 0 / 0.55))`.trim() }}
       />
       {pending && (
         <img
           key={pending}
-          src={deviceSrc(pending, flavour)}
+          src={srcFor(pending, flavour)}
           alt=""
           aria-hidden="true"
           decoding="async"

@@ -7,6 +7,7 @@ dist
 # Client source material — not ours to publish, and the zip is over GitHub's 100 MB limit.
 # public/ holds the generated web versions; see README for how to rebuild them.
 Mockupy
+Mockup 3D
 *.zip
 *.docx
 

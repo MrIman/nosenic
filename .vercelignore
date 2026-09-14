@@ -1,5 +1,6 @@
 # Source artwork — public/ already holds the generated, web-sized versions.
 Mockupy
+Mockup 3D
 *.zip
 *.docx
 dist

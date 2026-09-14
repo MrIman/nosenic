@@ -146,3 +146,16 @@ export const FORMAT_TAGS = ['COMPACT', 'DISCREET', 'PORTABLE', 'SENSORY', 'SMOKE
 
 export const deviceSrc = (world: string, flavour: FlavourId) =>
   `/devices/${world}/${flavour}.webp`
+
+/** Worlds with a 3D pouch render for every flavour (Mockup 3D/, scripts/build_packs.py). */
+const FULL_PACK_WORLDS = ['typographic', 'street', 'illustration', 'energy', 'graphic']
+
+/** 3D pouch worlds available for one flavour. Minimal is rendered for Winter Green only. */
+export const packWorldsFor = (flavour: FlavourId) =>
+  WORLDS.filter(
+    (world) =>
+      FULL_PACK_WORLDS.includes(world.id) ||
+      (world.id === 'minimal' && flavour === 'winter-green'),
+  )
+
+export const packSrc = (world: string, flavour: FlavourId) => `/packs/${world}/${flavour}.webp`
