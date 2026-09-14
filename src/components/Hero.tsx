@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import DeviceMorph from './DeviceMorph'
+import WindLights from './WindLights'
 import { FLAVOURS, WORLDS } from '../data/nosenic'
 import { gsap, prefersReducedMotion, useGSAP } from '../lib/motion'
 import { useInView } from '../hooks/useInView'
@@ -86,28 +87,11 @@ export default function Hero() {
         }}
       />
 
+      <WindLights active={inView} />
+
       <div className="flex flex-1 flex-col justify-between px-5 sm:px-8 lg:px-10">
         <div>
-          <div className="flex flex-wrap items-start justify-between gap-6">
-            <p
-              data-hero-meta
-              className="eyebrow max-w-[22ch]"
-              style={{ color: 'var(--muted)' }}
-            >
-              NoseNic — Nasal Inhaler Series
-            </p>
-            <p
-              data-hero-meta
-              className="eyebrow ml-auto max-w-[26ch] text-right"
-              style={{ color: 'var(--muted)' }}
-            >
-              A new sensory
-              <br />
-              nicotine format
-            </p>
-          </div>
-
-          <div className="relative mt-10 sm:mt-12">
+          <div className="relative mt-6 sm:mt-8">
             <h1 className="display text-[clamp(38px,10.6vw,176px)]">
               {['New nicotine', 'trend'].map((word) => (
                 <span
