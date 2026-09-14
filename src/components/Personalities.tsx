@@ -5,6 +5,9 @@ import { revealIn, useGSAP } from '../lib/motion'
 export default function Personalities() {
   const root = useRef<HTMLElement>(null)
   const [hovered, setHovered] = useState<number | null>(null)
+  // Row crossing the middle of the screen; hover takes over while the pointer is on the list.
+  const [centred, setCentred] = useState<number | null>(null)
+  const lit = hovered ?? centred
 
   useGSAP(
     () => {
@@ -13,22 +16,29 @@ export default function Personalities() {
     { scope: root },
   )
 
-  // Touch screens have no hover, so light the row passing the middle of the screen.
+  // Light each row as it scrolls through the middle of the screen.
   useEffect(() => {
     const section = root.current
-    if (!section || !window.matchMedia('(hover: none)').matches) return
-
+    if (!section) return
     const rows = [...section.querySelectorAll<HTMLElement>('[data-row]')]
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setHovered(Number(entry.target.getAttribute('data-row')))
-        }
-      },
-      { rootMargin: '-45% 0px -45% 0px' },
-    )
-    rows.forEach((row) => observer.observe(row))
-    return () => observer.disconnect()
+
+    const update = () => {
+      const middle = window.innerHeight / 2
+      const index = rows.findIndex((row) => {
+        const { top, bottom } = row.getBoundingClientRect()
+        return top <= middle && bottom > middle
+      })
+      // Between the heading and the list (or past it) nothing is lit.
+      setCentred(index === -1 ? null : index)
+    }
+
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
   }, [])
 
   return (
@@ -61,7 +71,7 @@ export default function Personalities() {
 
       <ul>
         {FLAVOURS.map((flavour, index) => {
-          const isOn = hovered === index
+          const isOn = lit === index
           return (
             <li
               key={flavour.id}
