@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import Logo from './Logo'
 import { revealIn, useGSAP } from '../lib/motion'
 
 export default function Statement() {
@@ -52,6 +53,13 @@ export default function Statement() {
           One brand.
         </p>
       </div>
+
+      <Logo
+        variant="lockup"
+        title="NoseNic — Nicotine Nasal Inhaler"
+        data-reveal
+        className="will-reveal mt-20 block h-auto w-[min(100%,520px)] translate-y-6 text-bone"
+      />
     </section>
   )
 }

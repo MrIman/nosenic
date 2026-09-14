@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import DeviceMorph from './DeviceMorph'
+import Logo from './Logo'
 import WindLights from './WindLights'
 import { FLAVOURS, WORLDS } from '../data/nosenic'
 import { gsap, prefersReducedMotion, useGSAP } from '../lib/motion'
@@ -92,27 +93,19 @@ export default function Hero() {
       <div className="flex flex-1 flex-col justify-between px-5 sm:px-8 lg:px-10">
         <div>
           <div className="relative mt-6 sm:mt-8">
-            <h1 className="display text-[clamp(64px,min(19vw,38vh),300px)]">
-              {['NoseNic'].map((word) => (
-                <span
-                  key={word}
-                  data-hero-line
-                  className="block overflow-hidden"
-                  /* Line-height 0.82 clips ascenders, so widen the mask without moving the line. */
-                  style={{
-                    padding: '0.1em 0 0.14em',
-                    margin: '-0.1em 0 -0.14em',
-                  }}
-                >
-                  <span className="block">{word}</span>
+            <h1>
+              <span data-hero-line className="block overflow-hidden">
+                <span className="block">
+                  {/* Sized off both axes so it clears phones and short laptop screens. */}
+                  <Logo className="block h-auto w-[min(100%,132vh,1400px)]" />
                 </span>
-              ))}
+              </span>
             </h1>
 
-            <div className="mt-5 flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
+            <div className="mt-4 flex flex-wrap items-end justify-between gap-x-10 gap-y-4 sm:mt-6">
               <p
                 data-hero-meta
-                className="display text-[clamp(24px,3.4vw,48px)]"
+                className="display text-[clamp(22px,7.9vw,40px)] md:text-[clamp(40px,min(5.2vw,10.5vh),80px)]"
                 style={{ color: 'var(--accent-ink)' }}
               >
                 New nicotine trend
@@ -169,7 +162,7 @@ export default function Hero() {
       </div>
 
       <div
-        className="marquee overflow-hidden border-y py-2.5"
+        className="marquee shrink-0 overflow-hidden border-y py-2.5"
         style={{ borderColor: 'var(--line)' }}
       >
         <div

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Logo from './Logo'
 
 const LINKS = [
   { href: '#flavours', label: 'Flavours' },
@@ -50,9 +51,10 @@ export default function Nav() {
             className="group flex items-baseline gap-2.5"
             aria-label="NoseNic — home"
           >
-            <span className="display text-[20px] leading-none sm:text-[24px]">
-              Nose<span style={{ color: 'var(--accent-ink)' }}>Nic</span>
-            </span>
+            <Logo
+              title=""
+              className="block h-[20px] w-auto self-center text-bone sm:h-[24px]"
+            />
             <span
               className="eyebrow hidden text-[10px] xl:inline"
               style={{ color: 'var(--muted)' }}

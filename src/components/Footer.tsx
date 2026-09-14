@@ -1,3 +1,5 @@
+import Logo from './Logo'
+
 const NAV = [
   { href: '#flavours', label: 'Flavours' },
   { href: '#personalities', label: 'Personalities' },
@@ -14,11 +16,13 @@ export default function Footer() {
         style={{ borderColor: 'var(--line)' }}
       >
         <div>
-          <p className="display text-[22px]">
-            Nose<span style={{ color: 'var(--accent-ink)' }}>Nic</span>
-          </p>
-          <p className="eyebrow mt-2 text-[10px]" style={{ color: 'var(--muted)' }}>
-            Nasal Inhaler Series / Breaking Flavour
+          <Logo
+            variant="lockup"
+            title="NoseNic — Nicotine Nasal Inhaler"
+            className="block h-14 w-auto text-bone"
+          />
+          <p className="eyebrow mt-3 text-[10px]" style={{ color: 'var(--muted)' }}>
+            Breaking Flavour
           </p>
         </div>
 
