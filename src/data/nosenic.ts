@@ -1,5 +1,7 @@
 /** Every string here comes from the NoseNic communication brief. */
 
+export const CONTACT_EMAIL = 'info@nosenic.com'
+
 export type FlavourId =
   | 'limoncello'
   | 'blueberry-ice'

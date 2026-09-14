@@ -1,4 +1,5 @@
 import Logo from './Logo'
+import { CONTACT_EMAIL } from '../data/nosenic'
 
 const NAV = [
   { href: '#flavours', label: 'Flavours' },
@@ -39,6 +40,20 @@ export default function Footer() {
         </nav>
       </div>
 
+      <div className="border-t py-10 sm:py-14" style={{ borderColor: 'var(--line)' }}>
+        <p className="eyebrow text-[10px]" style={{ color: 'var(--muted)' }}>
+          Contact
+        </p>
+        <a
+          href={`mailto:${CONTACT_EMAIL}`}
+          className="display mt-4 inline-block [overflow-wrap:anywhere] text-[clamp(28px,6vw,84px)] leading-[0.95] transition-colors duration-300 hover:[color:var(--accent-ink)]"
+          /* .display uppercases; an address should read as typed. */
+          style={{ textTransform: 'none', letterSpacing: '-0.03em' }}
+        >
+          {CONTACT_EMAIL}
+        </a>
+      </div>
+
       <div
         className="flex flex-col gap-4 border-t py-8 text-[13px] leading-relaxed sm:flex-row sm:items-start sm:justify-between"
         style={{ borderColor: 'var(--line)', color: 'var(--muted)' }}
@@ -53,7 +68,12 @@ export default function Footer() {
         <p className="shrink-0 sm:text-right">
           &copy; {new Date().getFullYear()} NoseNic
           <br />
-          Company details / product information to follow.
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="transition-colors duration-200 hover:text-bone"
+          >
+            {CONTACT_EMAIL}
+          </a>
         </p>
       </div>
     </footer>
