@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import DeviceMorph from './DeviceMorph'
 import Logo from './Logo'
+import MobilePackStage from './MobilePackStage'
 import WindLights from './WindLights'
 import { FLAVOURS, packSrc, packWorldsFor } from '../data/nosenic'
 import { gsap, prefersReducedMotion, useGSAP } from '../lib/motion'
@@ -79,7 +80,7 @@ export default function Hero() {
     <section
       id="top"
       ref={root}
-      className="relative isolate flex h-svh min-h-[600px] flex-col overflow-hidden pt-20 sm:pt-24"
+      className="relative isolate flex min-h-svh flex-col overflow-hidden pt-20 sm:pt-24 md:h-svh md:min-h-[600px]"
     >
       <div
         aria-hidden="true"
@@ -114,7 +115,7 @@ export default function Hero() {
               </p>
               <p
                 data-hero-meta
-                className="max-w-[38ch] text-[15px] leading-relaxed"
+                className="hidden max-w-[38ch] text-[15px] leading-relaxed md:block"
                 style={{ color: 'var(--muted)' }}
               >
                 Seven flavours. Ten visual worlds. One brand — every pack below is re-dressing
@@ -124,7 +125,7 @@ export default function Hero() {
               <a
                 data-hero-meta
                 href="#flavours"
-                className="inline-flex h-12 items-center rounded-full px-6 text-[15px] font-medium text-ink transition-opacity duration-200 active:opacity-80 lg:hidden"
+                className="hidden h-12 items-center rounded-full px-6 text-[15px] font-medium text-ink transition-opacity duration-200 active:opacity-80 md:inline-flex lg:hidden"
                 style={{ background: 'var(--accent)' }}
               >
                 Find your flavour
@@ -133,7 +134,19 @@ export default function Hero() {
           </div>
         </div>
 
-        <div ref={rowRef} className="relative flex items-end justify-center sm:gap-3 lg:gap-5">
+        <MobilePackStage active={inView} />
+        <a
+          href="#flavours"
+          className="mb-5 mt-2 flex h-12 items-center justify-center rounded-full text-[15px] font-medium text-ink transition-opacity duration-200 active:opacity-80 md:hidden"
+          style={{ background: 'var(--accent)' }}
+        >
+          Find your flavour
+        </a>
+
+        <div
+          ref={rowRef}
+          className="relative hidden items-end justify-center sm:gap-3 md:flex lg:gap-5"
+        >
           {FLAVOURS.map((flavour, index) => {
             const worlds = packWorldsFor(flavour.id)
             const world = worlds[worldIndices[index] % worlds.length]
@@ -142,8 +155,7 @@ export default function Hero() {
               <div
                 key={flavour.id}
                 data-hero-device
-                /* On phones the packs overlap into a fan so each can stay legible. */
-                className="-ml-[7vw] flex shrink-0 flex-col items-center first:ml-0 sm:ml-0"
+                className="flex shrink-0 flex-col items-center"
                 style={{
                   marginBottom: `${(3 - lift) * 8}px`,
                   zIndex: 10 - lift,
@@ -161,7 +173,7 @@ export default function Hero() {
                   tone="saturate(1.4) contrast(1.1) brightness(1.05)"
                   width={389}
                   height={600}
-                  className="aspect-[389/600] h-[clamp(60px,min(24vh,28vw),130px)] sm:h-[clamp(60px,min(28vh,18vw),280px)]"
+                  className="aspect-[389/600] h-[clamp(60px,min(28vh,18vw),280px)]"
                 />
                 <span className="eyebrow mt-3 hidden text-center text-[9px] leading-[1.5] lg:block">
                   <span className="block" style={{ color: 'var(--muted)' }}>
