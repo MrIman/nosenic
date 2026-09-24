@@ -92,6 +92,13 @@ body {
   border-top: 1px solid var(--line);
 }
 
+/* Held by the age gate. A class, not an inline style: the nav clears its own
+   inline overflow when its menu is closed, which would undo the lock. */
+html.scroll-locked,
+html.scroll-locked body {
+  overflow: hidden;
+}
+
 /* ---- motion -------------------------------------------------------- */
 
 @keyframes marquee {

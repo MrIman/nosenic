@@ -1,3 +1,4 @@
+import AgeGate from './components/AgeGate'
 import Grain from './components/Grain'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
@@ -29,6 +30,7 @@ export default function App() {
     return (
       <>
         <Grain />
+        <AgeGate />
         <OrderPage />
       </>
     )
@@ -61,6 +63,7 @@ export default function App() {
   return (
     <>
       <Grain />
+      <AgeGate />
       <Nav />
       <main>
         <Hero />
