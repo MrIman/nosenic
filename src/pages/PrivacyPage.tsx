@@ -50,16 +50,16 @@ export default function PrivacyPage() {
           className="mt-8 rounded-sm border p-5 text-[15px] leading-relaxed"
           style={{ borderColor: 'var(--accent)' }}
         >
-          <strong className="text-bone">Draft for review.</strong> The highlighted parts need
-          NoseNic&rsquo;s own details, and the whole text should be checked by a lawyer before
-          launch — this is a nicotine product sold across several markets.
+          <strong className="text-bone">Draft for review.</strong> The highlighted parts still
+          need ADA Group&rsquo;s registration details, and the whole text should be checked by a
+          lawyer before launch — this is a nicotine product sold across several markets.
         </p>
 
         <Section title="Who we are">
           <p>
-            This website is run by <TODO>[legal company name]</TODO>, registered at{' '}
-            <TODO>[registered address]</TODO>, company number <TODO>[company number]</TODO>, VAT{' '}
-            <TODO>[VAT number]</TODO> (&ldquo;NoseNic&rdquo;, &ldquo;we&rdquo;). We are the data
+            This website is run by ADA Group <TODO>[legal form, e.g. Sp. z o.o.]</TODO>,
+            registered at <TODO>[registered address]</TODO>, KRS <TODO>[KRS number]</TODO>, NIP{' '}
+            <TODO>[NIP]</TODO> (&ldquo;NoseNic&rdquo;, &ldquo;we&rdquo;). We are the data
             controller for the personal data described here. Write to us at{' '}
             <a
               href={`mailto:${CONTACT_EMAIL}`}
@@ -106,10 +106,9 @@ export default function PrivacyPage() {
         <Section title="Who else sees your data">
           <p>
             We share data only with the suppliers who run this site for us: our hosting provider
-            Vercel Inc. and our email provider <TODO>[email provider — Resend]</TODO>. Order
-            details also reach our accountants, carriers and, where relevant, our manufacturing
-            partner, so your order can be produced, invoiced and delivered. We never sell your
-            data.
+            Vercel Inc. and our email provider Resend (Plus Five Five, Inc.). Order details also
+            reach our accountants, carriers and, where relevant, our manufacturing partner, so
+            your order can be produced, invoiced and delivered. We never sell your data.
           </p>
           <p>
             Some of these suppliers are outside the European Economic Area. Where that is the
@@ -120,10 +119,10 @@ export default function PrivacyPage() {
 
         <Section title="How long we keep it">
           <p>
-            Orders and invoicing records:{' '}
-            <TODO>[retention period — commonly 5 or 6 years]</TODO> as required by tax and
-            accounting law. Enquiries that do not lead to an order: up to 24 months. Newsletter:
-            until you unsubscribe, plus a short record of the withdrawal.
+            Orders and invoicing records: 5 years from the end of the year in which the tax
+            became due, as Polish accounting and tax law requires. Enquiries that do not lead to
+            an order: up to 24 months. Newsletter: until you unsubscribe, plus a short record of
+            the withdrawal.
           </p>
         </Section>
 
@@ -139,8 +138,9 @@ export default function PrivacyPage() {
             >
               {CONTACT_EMAIL}
             </a>
-            . You also have the right to complain to your data protection authority; ours is{' '}
-            <TODO>[supervisory authority]</TODO>.
+            . You also have the right to complain to a data protection authority; ours is the
+            President of the Personal Data Protection Office (Prezes Urzędu Ochrony Danych
+            Osobowych), ul. Stawki 2, 00-193 Warsaw, Poland.
           </p>
         </Section>
 
