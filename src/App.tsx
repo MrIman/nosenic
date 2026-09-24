@@ -10,7 +10,9 @@ import Moments from './components/Moments'
 import Worlds from './components/Worlds'
 import Statement from './components/Statement'
 import Footer from './components/Footer'
+import Newsletter from './components/Newsletter'
 import OrderPage from './pages/OrderPage'
+import PrivacyPage from './pages/PrivacyPage'
 
 const SECTIONS = {
   hero: Hero,
@@ -20,18 +22,21 @@ const SECTIONS = {
   format: Format,
   moments: Moments,
   worlds: Worlds,
+  newsletter: Newsletter,
   statement: Statement,
   footer: Footer,
 } as const
 
 export default function App() {
-  // Single extra route; anything under /order is the trade order form.
-  if (window.location.pathname.replace(/\/+$/, '') === '/order') {
+  // Two standalone routes beside the home page.
+  const path = window.location.pathname.replace(/\/+$/, '')
+  const Page = path === '/order' ? OrderPage : path === '/privacy' ? PrivacyPage : null
+  if (Page) {
     return (
       <>
         <Grain />
         <AgeGate />
-        <OrderPage />
+        <Page />
       </>
     )
   }
@@ -73,6 +78,7 @@ export default function App() {
         <Format />
         <Moments />
         <Worlds />
+        <Newsletter />
         <Statement />
       </main>
       <Footer />

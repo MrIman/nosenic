@@ -65,7 +65,15 @@ export default function Footer() {
           For adults 18+ only. Not for use by non-smokers, pregnant or breastfeeding women.
           Product information follows the final approved packaging.
         </p>
-        <p className="shrink-0">&copy; {new Date().getFullYear()} NoseNic</p>
+        <p className="flex shrink-0 gap-x-4">
+          <a
+            href="/privacy"
+            className="-my-3 py-3 transition-colors duration-200 hover:text-bone"
+          >
+            Privacy policy
+          </a>
+          <span>&copy; {new Date().getFullYear()} NoseNic</span>
+        </p>
       </div>
     </footer>
   )
