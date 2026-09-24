@@ -2,16 +2,6 @@ import { useEffect } from 'react'
 import PageHeader from '../components/PageHeader'
 import { CONTACT_EMAIL } from '../data/nosenic'
 
-/** Filled in by NoseNic before launch; shown highlighted so nothing ships blank. */
-const TODO = ({ children }: { children: React.ReactNode }) => (
-  <mark
-    className="rounded-sm px-1.5 py-0.5"
-    style={{ background: 'var(--accent)', color: '#08080a' }}
-  >
-    {children}
-  </mark>
-)
-
 const UPDATED = '24 September 2026'
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -50,17 +40,17 @@ export default function PrivacyPage() {
           className="mt-8 rounded-sm border p-5 text-[15px] leading-relaxed"
           style={{ borderColor: 'var(--accent)' }}
         >
-          <strong className="text-bone">Draft for review.</strong> The highlighted parts still
-          need ADA Group&rsquo;s registration details, and the whole text should be checked by a
-          lawyer before launch — this is a nicotine product sold across several markets.
+          <strong className="text-bone">Please have a lawyer read this before launch.</strong>{' '}
+          It is a complete draft, but this is a nicotine product sold across several markets and
+          the wording should be confirmed against the rules of each of them.
         </p>
 
         <Section title="Who we are">
           <p>
-            This website is run by ADA Group <TODO>[legal form, e.g. Sp. z o.o.]</TODO>,
-            registered at <TODO>[registered address]</TODO>, KRS <TODO>[KRS number]</TODO>, NIP{' '}
-            <TODO>[NIP]</TODO> (&ldquo;NoseNic&rdquo;, &ldquo;we&rdquo;). We are the data
-            controller for the personal data described here. Write to us at{' '}
+            This website is run by ADA Group Sp. z o.o., registered at Jesionowa 22, 40-158
+            Katowice, Poland, KRS 0001204862, NIP 9542897994, REGON 543240040
+            (&ldquo;NoseNic&rdquo;, &ldquo;we&rdquo;). We are the data controller for the
+            personal data described here. Write to us at{' '}
             <a
               href={`mailto:${CONTACT_EMAIL}`}
               className="underline underline-offset-2 hover:text-bone"
