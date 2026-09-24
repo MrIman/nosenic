@@ -8,6 +8,7 @@ const LINKS = [
   { href: '#format', label: 'Format' },
   { href: '#moments', label: 'Moments' },
   { href: '#worlds', label: 'Worlds' },
+  { href: '/order', label: 'Order form' },
 ]
 
 export default function Nav() {
@@ -93,11 +94,11 @@ export default function Nav() {
               18+
             </span>
             <a
-              href="#flavours"
+              href="/order"
               className="hidden rounded-full px-5 py-2 text-[13px] font-medium text-ink transition-opacity duration-200 hover:opacity-80 lg:inline-block"
               style={{ background: 'var(--accent)' }}
             >
-              Find your flavour
+              Order form
             </a>
             <button
               type="button"

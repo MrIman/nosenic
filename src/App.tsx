@@ -9,6 +9,7 @@ import Moments from './components/Moments'
 import Worlds from './components/Worlds'
 import Statement from './components/Statement'
 import Footer from './components/Footer'
+import OrderPage from './pages/OrderPage'
 
 const SECTIONS = {
   hero: Hero,
@@ -23,6 +24,16 @@ const SECTIONS = {
 } as const
 
 export default function App() {
+  // Single extra route; anything under /order is the trade order form.
+  if (window.location.pathname.replace(/\/+$/, '') === '/order') {
+    return (
+      <>
+        <Grain />
+        <OrderPage />
+      </>
+    )
+  }
+
   // Dev affordance: ?only=worlds renders a single section at scroll 0 so it can
   // be inspected without driving the whole page.
   if (import.meta.env.DEV) {

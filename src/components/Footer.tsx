@@ -7,6 +7,7 @@ const NAV = [
   { href: '#format', label: 'Format' },
   { href: '#moments', label: 'Moments' },
   { href: '#worlds', label: 'Worlds' },
+  { href: '/order', label: 'Order form' },
 ]
 
 export default function Footer() {
