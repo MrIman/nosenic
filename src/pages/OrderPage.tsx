@@ -64,6 +64,14 @@ export default function OrderPage() {
       ),
     )
 
+  /** Steps off the latest value, so quick repeated taps each count. */
+  const bumpUnits = (id: string, delta: number) =>
+    setLines((previous) =>
+      previous.map((line) =>
+        line.id === id ? { ...line, units: Math.max(0, line.units + delta) } : line,
+      ),
+    )
+
   const download = () => {
     const blob = new Blob([orderCsv(reference, details, lines)], {
       type: 'text/csv;charset=utf-8',
@@ -291,7 +299,7 @@ export default function OrderPage() {
             <fieldset className="mt-12 border-t pt-8" style={{ borderColor: 'var(--line)' }}>
               <legend className="display pr-4 text-[clamp(20px,2.4vw,26px)]">Quantities</legend>
               <p className="mt-2 text-[14px]" style={{ color: 'var(--muted)' }}>
-                Units per flavour. Leave a flavour at zero to skip it.
+                Units per flavour, in steps of 100. Leave a flavour at zero to skip it.
               </p>
 
               <ul className="mt-6">
@@ -312,7 +320,7 @@ export default function OrderPage() {
                       <div className="flex items-center gap-2">
                         <button
                           type="button"
-                          onClick={() => setUnits(line.id, line.units - 100)}
+                          onClick={() => bumpUnits(line.id, -100)}
                           aria-label={`Fewer ${line.name}`}
                           className="size-11 cursor-pointer rounded-full border transition-colors duration-200 hover:bg-bone hover:text-ink"
                           style={{ borderColor: 'var(--line)' }}
@@ -322,7 +330,9 @@ export default function OrderPage() {
                         <input
                           type="number"
                           min={0}
-                          step={1}
+                          /* The − / + buttons move by 100; the field's own
+                             arrows should match. Typed values stay free. */
+                          step={100}
                           inputMode="numeric"
                           aria-label={`${line.name} units`}
                           value={line.units || ''}
@@ -333,7 +343,7 @@ export default function OrderPage() {
                         />
                         <button
                           type="button"
-                          onClick={() => setUnits(line.id, line.units + 100)}
+                          onClick={() => bumpUnits(line.id, 100)}
                           aria-label={`More ${line.name}`}
                           className="size-11 cursor-pointer rounded-full border transition-colors duration-200 hover:bg-bone hover:text-ink"
                           style={{ borderColor: 'var(--line)' }}
