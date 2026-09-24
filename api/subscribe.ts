@@ -1,13 +1,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { INBOX, sendMail } from './_mail'
 
 /**
- * Newsletter sign-ups. Same contract as api/order: mails the inbox through
- * Resend when RESEND_API_KEY is set, otherwise 503 so the page can fall back
- * to the reader's own mail app.
+ * Newsletter sign-ups: tells the inbox, and welcomes the subscriber from the
+ * brand address. Without RESEND_API_KEY it answers 503 so the page can fall
+ * back to the reader's own mail app.
  */
-const INBOX = process.env.ORDER_INBOX ?? 'info@nosenic.com'
-const FROM = process.env.ORDER_FROM ?? 'NoseNic orders <orders@nosenic.com>'
-
 export default async function handler(request: VercelRequest, response: VercelResponse) {
   if (request.method !== 'POST') {
     response.setHeader('Allow', 'POST')
@@ -24,22 +22,32 @@ export default async function handler(request: VercelRequest, response: VercelRe
     return response.status(503).json({ ok: false, error: 'email-not-configured' })
   }
 
-  const sent = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from: FROM,
-      to: [INBOX],
-      reply_to: email,
-      subject: `Newsletter sign-up — ${email}`,
-      text: `${email} asked to join the NoseNic newsletter (consent given on the website).`,
-    }),
+  const notified = await sendMail(key, {
+    to: INBOX,
+    replyTo: email,
+    subject: `Newsletter sign-up — ${email}`,
+    text: `${email} asked to join the NoseNic newsletter (consent given on the website).`,
   })
 
-  if (!sent.ok) {
-    console.error('resend failed', sent.status, await sent.text())
+  // The welcome note is a courtesy; a failure there must not lose the sign-up.
+  await sendMail(key, {
+    to: email,
+    subject: 'Welcome to NoseNic',
+    text: [
+      'Thanks for signing up.',
+      '',
+      'You will hear from us when a new flavour or visual world launches — a few',
+      'times a year, never more.',
+      '',
+      `To unsubscribe, reply to this email or write to ${INBOX}.`,
+      '',
+      'NoseNic — Nasal Inhaler Series',
+      'This product contains nicotine. Nicotine is an addictive chemical. 18+ only.',
+    ].join('\n'),
+  })
+
+  if (!notified) {
     return response.status(502).json({ ok: false, error: 'send-failed' })
   }
-
   return response.status(200).json({ ok: true })
 }

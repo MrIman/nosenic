@@ -1,14 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-
-/**
- * Receives an order from /order and mails it to the inbox.
- *
- * Sending needs RESEND_API_KEY (and a verified sender domain). Without it the
- * function answers 503 and the page falls back to the customer's own mail app,
- * so orders are never silently lost.
- */
-const INBOX = process.env.ORDER_INBOX ?? 'info@nosenic.com'
-const FROM = process.env.ORDER_FROM ?? 'NoseNic orders <orders@nosenic.com>'
+import { INBOX, sendMail } from './_mail'
 
 interface OrderPayload {
   reference?: string
@@ -16,6 +7,14 @@ interface OrderPayload {
   details?: { company?: string; email?: string }
 }
 
+/**
+ * Receives an order from /order and mails it to the inbox.
+ *
+ * Sending needs RESEND_API_KEY (and a verified sender domain). Without it the
+ * function answers 503 and the page falls back to the customer's own mail app,
+ * so orders are never silently lost. Mail goes out from the brand address; see
+ * ./_mail.
+ */
 export default async function handler(request: VercelRequest, response: VercelResponse) {
   if (request.method !== 'POST') {
     response.setHeader('Allow', 'POST')
@@ -32,20 +31,14 @@ export default async function handler(request: VercelRequest, response: VercelRe
     return response.status(503).json({ ok: false, error: 'email-not-configured' })
   }
 
-  const sent = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from: FROM,
-      to: [INBOX],
-      reply_to: details.email,
-      subject: `NoseNic order ${reference} — ${details.company ?? 'new customer'}`,
-      text,
-    }),
+  const sent = await sendMail(key, {
+    to: INBOX,
+    replyTo: details.email,
+    subject: `NoseNic order ${reference} — ${details.company ?? 'new customer'}`,
+    text,
   })
 
-  if (!sent.ok) {
-    console.error('resend failed', sent.status, await sent.text())
+  if (!sent) {
     return response.status(502).json({ ok: false, error: 'send-failed' })
   }
 
