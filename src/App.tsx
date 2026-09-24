@@ -11,6 +11,7 @@ import Worlds from './components/Worlds'
 import Statement from './components/Statement'
 import Footer from './components/Footer'
 import Newsletter from './components/Newsletter'
+import NewsletterPopup from './components/NewsletterPopup'
 import OrderPage from './pages/OrderPage'
 import PrivacyPage from './pages/PrivacyPage'
 
@@ -82,6 +83,7 @@ export default function App() {
         <Statement />
       </main>
       <Footer />
+      <NewsletterPopup />
     </>
   )
 }

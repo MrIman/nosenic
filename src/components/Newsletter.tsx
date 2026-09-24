@@ -1,8 +1,7 @@
-import { useRef, useState } from 'react'
-import { CONTACT_EMAIL, FLAVOURS } from '../data/nosenic'
+import { useRef } from 'react'
+import { FLAVOURS } from '../data/nosenic'
+import { useNewsletter } from '../hooks/useNewsletter'
 import { revealIn, useGSAP } from '../lib/motion'
-
-type Status = 'idle' | 'sending' | 'done' | 'manual'
 
 /**
  * Newsletter sign-up. One field, one consent box; on success the band keeps
@@ -12,9 +11,7 @@ type Status = 'idle' | 'sending' | 'done' | 'manual'
  */
 export default function Newsletter() {
   const root = useRef<HTMLElement>(null)
-  const [email, setEmail] = useState('')
-  const [consent, setConsent] = useState(false)
-  const [status, setStatus] = useState<Status>('idle')
+  const { email, setEmail, consent, setConsent, status, submit, mailto } = useNewsletter()
   // Which flavour colours this band; picked once so it stays put.
   const flavour = useRef(FLAVOURS[Math.floor(Math.random() * FLAVOURS.length)]).current
 
@@ -24,26 +21,6 @@ export default function Newsletter() {
     },
     { scope: root },
   )
-
-  const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
-    'Newsletter sign-up',
-  )}&body=${encodeURIComponent(`Please add ${email} to the NoseNic newsletter.`)}`
-
-  const submit = async (event: React.FormEvent) => {
-    event.preventDefault()
-    setStatus('sending')
-    try {
-      const response = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      })
-      const body = await response.json().catch(() => null)
-      setStatus(response.ok && body?.ok ? 'done' : 'manual')
-    } catch {
-      setStatus('manual')
-    }
-  }
 
   return (
     <section
